@@ -92,6 +92,18 @@ app.post('/api/mpesa', requireApiKey, (req, res) => {
   );
 });
 
+
+// GET /api/transactions - return latest 20 transactions
+app.get('/api/transactions', requireApiKey, (req, res) => {
+  db.all(
+    `SELECT * FROM transactions ORDER BY transaction_datetime DESC LIMIT 20`,
+    (err, rows) => {
+      if (err) return res.status(500).json({ error: 'DB error' });
+      res.json(rows);
+    }
+  );
+});
+
 app.listen(PORT, () => {
   console.log(`M-PESA API running on port ${PORT}`);
 });
