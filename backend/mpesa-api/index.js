@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const sqlite3 = require('sqlite3').verbose();
 const Ajv = require('ajv');
 const morgan = require('morgan');
+const cors = require('cors');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -11,6 +12,9 @@ const DB_FILE = 'transactions.db';
 
 app.use(bodyParser.json());
 app.use(morgan('combined'));
+app.use(cors({
+  origin: 'https://pjmunash.github.io'
+}));
 
 // SQLite setup
 const db = new sqlite3.Database(DB_FILE);
@@ -91,7 +95,6 @@ app.post('/api/mpesa', requireApiKey, (req, res) => {
     }
   );
 });
-
 
 // GET /api/transactions - return latest 20 transactions
 app.get('/api/transactions', requireApiKey, (req, res) => {
