@@ -104,5 +104,9 @@ app.get('/api/transactions', (req, res) => {
 });
 
 app.listen(PORT, () => {
+  // Serve status UI
+  app.get('/status', (req, res) => {
+    res.sendFile(__dirname + '/status.html');
+  });
   console.log(`M-PESA API running on port ${PORT}`);
 });

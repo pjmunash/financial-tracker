@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mpesa API Status</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f7f7f7; margin: 40px; }
+    .container { max-width: 600px; margin: auto; background: #fff; padding: 32px; border-radius: 12px; box-shadow: 0 2px 12px #bbb; }
+    h1 { color: #009e3a; }
+    .status { margin-top: 24px; font-size: 1.2em; }
+    .log { margin-top: 32px; background: #eee; padding: 16px; border-radius: 8px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Mpesa API Status</h1>
+    <div class="status" id="status">Checking backend...</div>
+    <div class="log" id="log">Loading log...</div>
+  </div>
+  <script>
+    async function fetchStatus() {
+      try {
+        const res = await fetch('/api/transactions');
+        const data = await res.json();
+        document.getElementById('status').innerText = `Received ${data.length} transaction(s).`;
+        if (Array.isArray(data) && data.length > 0) {
+          document.getElementById('log').innerHTML = data.map(tx => `
+            <div><b>${tx.transaction_type.toUpperCase()}</b> | ${tx.amount} ${tx.currency} | ${tx.counterparty_name} | ${tx.counterparty_phone} | ${tx.transaction_datetime}</div>
+          `).join('');
+        } else {
+          document.getElementById('log').innerText = 'No transactions received yet.';
+        }
+      } catch (e) {
+        document.getElementById('status').innerText = 'Error connecting to backend.';
+        document.getElementById('log').innerText = e.toString();
+      }
+    }
+    fetchStatus();
+    setInterval(fetchStatus, 10000);
+  </script>
+</body>
+</html>
