@@ -13,7 +13,10 @@ const DB_FILE = 'transactions.db';
 app.use(bodyParser.json());
 app.use(morgan('combined'));
 app.use(cors({
-  origin: 'https://pjmunash.github.io'
+  origin: [
+    'https://pjmunash.github.io',
+    'https://financial-trackeing-system.onrender.com'
+  ]
 }));
 
 // SQLite setup

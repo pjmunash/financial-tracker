@@ -35,8 +35,8 @@
       return d.toLocaleString();
     }
     async function fetchTransactions() {
-      const res = await fetch('http://localhost:3000/api/transactions', {
-        headers: { 'Authorization': 'Bearer YOUR_API_KEY' }
+      const res = await fetch('https://financial-trackeing-system.onrender.com/api/transactions', {
+        headers: { 'Authorization': 'Bearer b7f3c2e1-9a4d-4e8b-8c2a-7f6d5e4c3b2a' }
       });
       const data = await res.json();
       const container = document.getElementById('transactions');
