@@ -7,7 +7,7 @@ const cors = require('cors');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const API_KEY = process.env.API_KEY || 'YOUR_API_KEY';
+const API_KEY = process.env.API_KEY || 'b7f3c2e1-9a4d-4e8b-8c2a-7f6d5e4c3b2a';
 const DB_FILE = 'transactions.db';
 
 app.use(bodyParser.json());
