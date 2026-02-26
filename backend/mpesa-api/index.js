@@ -55,16 +55,9 @@ const schema = {
 const validate = ajv.compile(schema);
 
 // API key middleware
-function requireApiKey(req, res, next) {
-  const auth = req.headers['authorization'] || '';
-  if (auth !== `Bearer ${API_KEY}`) {
-    return res.status(401).json({ error: 'Unauthorized' });
-  }
-  next();
-}
 
 // POST /api/mpesa
-app.post('/api/mpesa', requireApiKey, (req, res) => {
+app.post('/api/mpesa', (req, res) => {
   const data = req.body;
   if (!validate(data)) {
     return res.status(400).json({ error: 'Invalid payload', details: validate.errors });
@@ -100,7 +93,7 @@ app.post('/api/mpesa', requireApiKey, (req, res) => {
 });
 
 // GET /api/transactions - return latest 20 transactions
-app.get('/api/transactions', requireApiKey, (req, res) => {
+app.get('/api/transactions', (req, res) => {
   db.all(
     `SELECT * FROM transactions ORDER BY transaction_datetime DESC LIMIT 20`,
     (err, rows) => {
